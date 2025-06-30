@@ -35,10 +35,11 @@ reverse_crypt: dict[str, str] = {
 crypt: dict[str, str] = {v: k for k, v in reverse_crypt.items()}
 
 
-def cryptor(table: dict[str, str], input_sep: str | bool, output_sep: str = '') -> Callable:
+def cryptor(table: dict[str, str], input_sep: str | bool, output_sep: str = '', lower: bool = False) -> Callable:
 
     def wrapper(func: Callable) -> Callable:  # NoQA
         def decorator(txt: str) -> str:
+            if lower: txt = txt.lower()
 
             raw_char_list = txt.split(input_sep) if input_sep is not False else list(txt)
 
@@ -58,7 +59,7 @@ def decrypt(txt: str) -> str:  # NoQA
     return ''
 
 
-@cryptor(reverse_crypt, False, output_sep='_')
+@cryptor(reverse_crypt, False, output_sep='_', lower=True)
 def encrypt(txt: str) -> str:  # NoQA
     return ''
 
